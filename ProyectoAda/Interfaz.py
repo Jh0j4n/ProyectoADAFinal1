@@ -83,12 +83,21 @@ class App(ctk.CTk):
 
     # Resultados de la pestaña Terminal
     def create_terminal_results(self, parent):
-        result_frame = ctk.CTkFrame(parent)
-        result_frame.pack(pady=10, fill="x")
-
+        """Crea el área de resultados en la pestaña Terminal Inteligente con desplazamiento."""
+        # Crear un CTkScrollableFrame para el contenido desplazable
+        result_frame = ctk.CTkScrollableFrame(parent, width=580, height=200)  # Ajusta el tamaño según sea necesario
+        result_frame.pack(pady=10, fill="both", expand=True)
+    
+        # Crear e inicializar la variable para los resultados
         self.resultado_terminal = ctk.StringVar()
-        ctk.CTkLabel(result_frame, text="Resultado:").pack(pady=5)
-        ctk.CTkLabel(result_frame, textvariable=self.resultado_terminal).pack(pady=5)
+        self.resultado_terminal.set("")  # Por defecto, vacío
+    
+        # Etiqueta para mostrar los resultados
+        self.resultado_terminal_label = ctk.CTkLabel(
+            result_frame, textvariable=self.resultado_terminal, wraplength=550, justify="left"
+        )
+        self.resultado_terminal_label.pack(pady=5, anchor="w")
+    
 
     # Entradas de datos en la pestaña Subasta
     def create_inputs(self, parent):
