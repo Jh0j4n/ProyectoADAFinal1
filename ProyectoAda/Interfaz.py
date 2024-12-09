@@ -4,6 +4,7 @@ from SubastaFuerzaBruta import generar_combinaciones
 from SubastaVoraz import asignar_acciones, calcular_valor
 from TerInteligenteBruta import calcular_mejor_coste, tupla_con_menor_suma
 from TerInteligenteVoraz import interfaz_voraz
+import time
 
 
 class App(ctk.CTk):
@@ -159,9 +160,12 @@ class App(ctk.CTk):
 
     # Métodos de subasta
     def run_dinamica(self):
-        A, B, oferentes = self.get_input_data()
-        combinacion, max_ingreso = generar_combinacionesDP(A, oferentes, B)
-        self.resultado_texto.set(f"Dinámica:\nCombinación: {combinacion}\nIngreso Máximo: {max_ingreso}")
+        A = int(self.total_acciones.get())
+        B = int(self.precio_minimo.get())
+        oferentes = [(int(pi.get()), int(mi.get()), int(Mi.get())) for pi, mi, Mi in self.oferentes_list]
+        
+        combinacion, acciones_gob, max_ingreso = generar_combinacionesDP(A, oferentes, B)
+        self.resultado_texto.set(f"Dinámica:\nCombinación: {combinacion}\nIngreso Máximo: {max_ingreso}")
 
     def run_fuerza_bruta(self):
         A, B, oferentes = self.get_input_data()
@@ -185,6 +189,8 @@ class App(ctk.CTk):
 
     # Métodos del terminal inteligente
     def run_fuerza_bruta_terminal(self):
+        start_time = time.time()
+        
         try:
             # Obtén las palabras inicial y objetivo
             word1 = list(self.terminal_vars[0].get())
@@ -210,6 +216,14 @@ class App(ctk.CTk):
             self.resultado_terminal.set(resultado)
         except Exception as e:
             self.resultado_terminal.set(f"Error: {str(e)}")
+        # Código cuya duración quieres medir
+        for i in range(1000000):
+            _ = i * i  # Operación de ejemplo
+        end_time = time.time()
+    	# Calcula el tiempo transcurrido
+        execution_time = end_time - start_time
+        print(f"El código tomó {execution_time:.6f} segundos en ejecutarse.")
+            
 
 
 
@@ -248,3 +262,4 @@ class App(ctk.CTk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+    
