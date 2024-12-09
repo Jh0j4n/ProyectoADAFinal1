@@ -4,6 +4,7 @@ from SubastaFuerzaBruta import generar_combinaciones
 from SubastaVoraz import asignar_acciones, calcular_valor
 from TerInteligenteBruta import calcular_mejor_coste, tupla_con_menor_suma
 from TerInteligenteVoraz import interfaz_voraz
+from TerInteligenteDinamica import costo_min_din
 import time
 
 
@@ -228,7 +229,41 @@ class App(ctk.CTk):
 
 
     def run_dinamica_terminal(self):
-        self.resultado_terminal.set("en mantenimiento")
+        try:
+            # Obtén las palabras inicial y objetivo
+            cadena_inicial = self.terminal_vars[0].get()
+            cadena_destino = self.terminal_vars[1].get()
+    
+            # Obtén los costos de las operaciones
+            costo_avanzar = int(self.terminal_vars[2].get())
+            costo_borrar = int(self.terminal_vars[3].get())
+            costo_reemplazar = int(self.terminal_vars[4].get())
+            costo_insertar = int(self.terminal_vars[5].get())
+            costo_reemplazo_total = int(self.terminal_vars[6].get())
+    
+            # Llama a la función dinámica para calcular el costo mínimo
+            costo_final, pasos_transformacion = costo_min_din(
+                cadena_inicial, cadena_destino,
+                costo_insertar, costo_borrar,
+                costo_reemplazar, costo_avanzar,
+                costo_reemplazo_total
+            )
+    
+            # Prepara el resultado para mostrar
+            resultado = f"Costo mínimo: {costo_final}\nSecuencia de operaciones:\n"
+            for paso in pasos_transformacion:
+                estado, operacion = paso
+                resultado += f"{estado:<15} -> {operacion}\n"
+    
+            # Mostrar el resultado en la interfaz
+            self.resultado_terminal.set(resultado)
+    
+        except ValueError:
+            self.resultado_terminal.set("Error: Verifica que todos los costos sean números válidos.")
+        except Exception as e:
+            self.resultado_terminal.set(f"Error inesperado: {str(e)}")
+    
+
 
     def run_voraz_terminal(self):
         # Obtén las palabras inicial y objetivo

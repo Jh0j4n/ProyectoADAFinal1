@@ -114,11 +114,7 @@ costo_reemplazar = 3
 costo_avanzar = 1
 costo_reemplazo_total = 1
 
-cadena_inicial = "ingeniero"
-cadena_destino = "ingenioso"
+cadena_inicial = ""
+cadena_destino = ""
 
 costo_final, pasos_transformacion = costo_min_din(cadena_inicial, cadena_destino, costo_insertar, costo_borrar, costo_reemplazar, costo_avanzar, costo_reemplazo_total)
-
-print(f"\nEl costo mínimo para convertir '{cadena_inicial}' en '{cadena_destino}' es: {costo_final}")
-print("\nSecuencia de operaciones:")
-mostrar_transformacion(cadena_inicial, pasos_transformacion)
