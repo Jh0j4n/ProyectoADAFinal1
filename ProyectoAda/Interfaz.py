@@ -87,17 +87,17 @@ class App(ctk.CTk):
         # Crear un CTkScrollableFrame para el contenido desplazable
         result_frame = ctk.CTkScrollableFrame(parent, width=580, height=200)  # Ajusta el tamaño según sea necesario
         result_frame.pack(pady=10, fill="both", expand=True)
-    
+
         # Crear e inicializar la variable para los resultados
         self.resultado_terminal = ctk.StringVar()
         self.resultado_terminal.set("")  # Por defecto, vacío
-    
+
         # Etiqueta para mostrar los resultados
         self.resultado_terminal_label = ctk.CTkLabel(
             result_frame, textvariable=self.resultado_terminal, wraplength=550, justify="left"
         )
         self.resultado_terminal_label.pack(pady=5, anchor="w")
-    
+
 
     # Entradas de datos en la pestaña Subasta
     def create_inputs(self, parent):
@@ -170,25 +170,46 @@ class App(ctk.CTk):
 
     # Métodos de subasta
     def run_dinamica(self):
+
         A = int(self.total_acciones.get())
         B = int(self.precio_minimo.get())
         oferentes = [(int(pi.get()), int(mi.get()), int(Mi.get())) for pi, mi, Mi in self.oferentes_list]
         
         combinacion, acciones_gob, max_ingreso = generar_combinacionesDP(A, oferentes, B)
         self.resultado_texto.set(f"Dinámica:\nCombinación: {combinacion}\nIngreso Máximo: {max_ingreso}")
+        for i in range(1000000):
+            _ = i * i  # Operación de ejemplo
+        end_time = time.time()
+    	# Calcula el tiempo transcurrido
+        execution_time = end_time - start_time
+        print(f"El código tomó {execution_time:.6f} segundos en ejecutarse.")
 
     def run_fuerza_bruta(self):
+        start_time = time.time()
         A, B, oferentes = self.get_input_data()
         gobierno = (B, 0, A)
         combinacion, max_ingreso = generar_combinaciones(A, oferentes, B, gobierno)
         self.resultado_texto.set(f"Fuerza Bruta:\nCombinación: {combinacion}\nIngreso Máximo: {max_ingreso}")
+        for i in range(1000000):
+            _ = i * i  # Operación de ejemplo
+        end_time = time.time()
+    	# Calcula el tiempo transcurrido
+        execution_time = end_time - start_time
+        print(f"El código tomó {execution_time:.6f} segundos en ejecutarse.")
 
     def run_voraz(self):
+        start_time = time.time()
         A, B, oferentes = self.get_input_data()
         gobierno = (B, 0, A)
         asignacion = asignar_acciones(A, oferentes)
         valor = calcular_valor(asignacion, oferentes, gobierno, A)
         self.resultado_texto.set(f"Voraz:\nCombinación: {asignacion}\nIngreso Máximo: {valor}")
+        for i in range(1000000):
+            _ = i * i  # Operación de ejemplo
+        end_time = time.time()
+    	# Calcula el tiempo transcurrido
+        execution_time = end_time - start_time
+        print(f"El código tomó {execution_time:.6f} segundos en ejecutarse.")
 
     def get_input_data(self):
         """Obtiene y valida los datos ingresados."""
