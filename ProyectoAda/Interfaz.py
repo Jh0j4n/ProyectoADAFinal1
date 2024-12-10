@@ -170,7 +170,7 @@ class App(ctk.CTk):
 
     # Métodos de subasta
     def run_dinamica(self):
-
+        start_time = time.time()
         A = int(self.total_acciones.get())
         B = int(self.precio_minimo.get())
         oferentes = [(int(pi.get()), int(mi.get()), int(Mi.get())) for pi, mi, Mi in self.oferentes_list]
